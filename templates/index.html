@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="welcome">
+  <p class="eyebrow">创建 · 分享 · 收集</p>
+  <h1>让每一份回答<br>都有清楚的去处。</h1>
+  <p class="lead">创建在线问卷，设置答题规则，通过链接收集回答，再查看结果。</p>
+  <div class="actions"><a class="button" href="{{ url_for('register') }}">注册并创建问卷</a><a class="button secondary" href="{{ url_for('login') }}">已有账号，登录</a></div>
+  <div class="feature-list"><div><strong>多种题型</strong><p>单选、多选、文本和数字填空。</p></div><div><strong>按回答跳转</strong><p>让不同回答进入适合的后续题目。</p></div><div><strong>查看结果</strong><p>选择次数、填写内容与数字平均值。</p></div></div>
+</section>
+{% endblock %}

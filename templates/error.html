@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}操作提示 · 问卷系统{% endblock %}
+{% block content %}<section class="empty"><p class="eyebrow">操作提示 {{ code }}</p><h1>{{ message }}</h1><p>可以返回问卷列表，或检查填写链接后再试。</p><a class="button secondary" href="{{ url_for('dashboard') if g.user else url_for('login') }}">{{ '返回我的问卷' if g.user else '去登录' }}</a></section>{% endblock %}

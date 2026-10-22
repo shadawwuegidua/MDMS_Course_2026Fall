@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}我的问卷 · 问卷系统{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='dashboard.js') }}" defer></script>{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">我的工作台</p><h1>我的问卷</h1><p class="muted">这里仅显示由你创建的问卷。</p></div><a class="button" href="{{ url_for('new_survey') }}">＋ 创建问卷</a></div>
+<p id="dashboard-message" class="message" role="status" hidden></p>
+{% if not surveys %}<section class="empty"><h2>从第一份问卷开始</h2><p>填写标题，添加题目，再把发布后的链接发给填写者。</p><a class="button" href="{{ url_for('new_survey') }}">创建问卷</a></section>{% endif %}
+{% for survey in surveys %}
+<article class="survey-card" data-survey-id="{{ survey._id }}">
+  <div class="card-heading"><h2>{{ survey.title }}</h2><span class="badge">{% if survey.status == 'draft' %}草稿{% elif survey.status == 'closed' %}已关闭{% elif survey.deadline and survey.deadline <= now %}已截止{% else %}收集中{% endif %}</span></div>
+  <p class="muted">{{ survey.description or '暂无说明' }}</p>
+  <p class="hint">{{ survey.questions|length }} 道题 · {{ '匿名' if survey.is_anonymous else '显示填写者账号' }} · {{ '允许重复填写' if survey.allow_multiple else '每账号限填一次' }} · 创建于 {{ survey.created_at|localtime }}</p>
+  <div class="actions">
+    {% if survey.status == 'draft' %}<a class="button secondary" href="{{ url_for('edit_survey', survey_id=survey._id) }}">编辑草稿</a><button type="button" data-action="publish">发布问卷</button><span class="hint">发布后固定题目和规则</span>
+    {% else %}<a class="button secondary" href="{{ url_for('statistics_page', survey_id=survey._id) }}">查看统计</a>{% if survey.status == 'published' %}<a class="button secondary" href="{{ url_for('fill_survey', survey_id=survey._id) }}">打开填写页</a><button type="button" class="danger" data-action="close">关闭问卷</button>{% endif %}{% endif %}
+  </div>
+  {% if survey.status != 'draft' %}<label class="share-field">填写链接<div class="input-row"><input class="share-url" readonly value="{{ url_for('fill_survey', survey_id=survey._id, _external=True) }}" aria-label="填写链接"><button type="button" class="secondary" data-action="copy">复制链接</button></div></label>{% endif %}
+  <details><summary>截止时间：{{ survey.deadline|localtime }}（UTC+8）</summary>
+    {% if survey.status != 'closed' %}<div class="input-row"><input type="datetime-local" class="deadline" data-utc="{{ survey.deadline.isoformat() if survey.deadline else '' }}" aria-label="截止时间"><button type="button" class="secondary" data-action="deadline">保存截止时间</button></div><p class="hint">留空表示不设截止时间；到期后自动停止接收答卷。</p>{% else %}<p class="hint">已关闭的问卷保留统计，不能再收集答卷。</p>{% endif %}
+  </details>
+</article>
+{% endfor %}
+{% endblock %}

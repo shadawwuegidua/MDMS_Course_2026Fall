@@ -1,0 +1,34 @@
+{
+  "title": "演示问卷：校园生活调查",
+  "description": "用于理解题型、校验、三类跳转和统计。匿名，允许重复填写。",
+  "is_anonymous": true,
+  "allow_multiple": true,
+  "deadline": null,
+  "questions": [
+    {
+      "id": "q_path", "title": "你希望填写水果兴趣题吗？", "type": "single", "required": true,
+      "options": [{"id": "yes", "text": "填写兴趣题"}, {"id": "no", "text": "跳过兴趣题"}],
+      "validation": {},
+      "rules": [{"operator": "eq", "value": "no", "target_id": "q_age"}]
+    },
+    {
+      "id": "q_fruits", "title": "你喜欢哪些水果？", "type": "multiple", "required": true,
+      "options": [{"id": "apple", "text": "苹果"}, {"id": "banana", "text": "香蕉"}, {"id": "orange", "text": "橙子"}],
+      "validation": {"min_choices": 1, "max_choices": 2},
+      "rules": [{"operator": "contains", "value": "orange", "target_id": "q_feedback"}]
+    },
+    {
+      "id": "q_age", "title": "你的年龄", "type": "number", "required": true,
+      "options": [], "validation": {"min_value": 0, "max_value": 120, "integer_only": true},
+      "rules": [{"operator": "lt", "value": 18, "target_id": "q_feedback"}]
+    },
+    {
+      "id": "q_advice", "title": "你对课程学习有什么建议？", "type": "text", "required": true,
+      "options": [], "validation": {"min_length": 2, "max_length": 60}, "rules": []
+    },
+    {
+      "id": "q_feedback", "title": "其他意见（可留空）", "type": "text", "required": false,
+      "options": [], "validation": {"max_length": 100}, "rules": []
+    }
+  ]
+}

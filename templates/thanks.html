@@ -1,0 +1,2 @@
+{% extends "base.html" %}
+{% block content %}<section class="empty"><p class="eyebrow">提交成功</p><h1>谢谢你的回答。</h1><p>你的答卷已保存到「{{ survey.title }}」。</p><div class="actions centered"><a class="button secondary" href="{{ url_for('dashboard') }}">返回我的问卷</a>{% if survey.allow_multiple and survey.status == 'published' %}<a class="button" href="{{ url_for('fill_survey', survey_id=survey._id) }}">再填写一份</a>{% endif %}</div></section>{% endblock %}

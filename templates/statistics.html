@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ survey.title }} · 统计{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">统计结果</p><h1>{{ survey.title }}</h1><p class="muted">共收到 <strong>{{ statistics.total_responses }}</strong> 份有效答卷。刷新页面可查看最新结果。</p></div><a href="{{ url_for('dashboard') }}">返回列表</a></div>
+<form method="get" class="filter-row"><label for="question-filter">统计范围</label><select id="question-filter" name="question_id"><option value="">整个问卷</option>{% for q in survey.questions %}<option value="{{ q.id }}" {% if selected == q.id %}selected{% endif %}>第 {{ loop.index }} 题：{{ q.title }}</option>{% endfor %}</select><button type="submit" class="secondary">查看</button></form>
+{% if not statistics.total_responses %}<p class="message">还没有答卷。可以分享填写链接，再回到这里查看统计。</p>{% endif %}
+{% for q in statistics.questions %}<section class="panel" id="result-{{ q.id }}"><div class="card-heading"><h2>{{ q.title }}</h2><span class="badge">{{ {'single':'单选','multiple':'多选','text':'文本','number':'数字'}[q.type] }}</span></div><p class="hint">{{ q.answered }} 人次回答；跳过或选填留空不计入回答人数。</p>
+{% if q.type in ['single', 'multiple'] %}<div class="table-wrap"><table><thead><tr><th>选项</th><th>{{ '选择人数' if q.type == 'single' else '选择次数' }}</th><th>占该题回答比例</th></tr></thead><tbody>{% for option in q.options %}<tr><td>{{ option.text }}</td><td>{{ option.count }}</td><td>{{ '%.1f'|format(option.count * 100 / q.answered) if q.answered else '0.0' }}%</td></tr>{% endfor %}</tbody></table></div>
+{% else %}{% if q.type == 'number' %}<p>平均值：<strong>{{ '%.4f'|format(q.average)|replace('.0000','') if q.average is not none else '暂无数据' }}</strong></p>{% endif %}{% if q['values'] %}<details open><summary>全部填写内容（{{ q['values']|length }} 条）</summary><ol class="value-list">{% for value in q['values'] %}<li>{{ value }}</li>{% endfor %}</ol></details>{% else %}<p class="muted">暂无填写内容。</p>{% endif %}{% endif %}
+</section>{% endfor %}
+{% if statistics.responses %}<section class="panel"><h2>答卷明细</h2><p class="hint">{{ '本问卷对创建者匿名。' if survey.is_anonymous else '本问卷显示填写者账号。' }}</p>
+{% for response in statistics.responses %}<details><summary>{{ response.respondent }} · {{ response.submitted_at|localtime }}</summary><dl>{% for q in survey.questions %}{% if not selected or selected == q.id %}<dt>{{ q.title }}</dt><dd>{{ format_answer(q, response.answers.get(q.id)) }}</dd>{% endif %}{% endfor %}</dl></details>{% endfor %}</section>{% endif %}
+{% endblock %}

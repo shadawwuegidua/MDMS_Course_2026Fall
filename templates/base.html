@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>{% block title %}问卷系统{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='common.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ url_for('index') }}">问卷系统 <span>MongoDB 课程项目</span></a>
+    <nav aria-label="主导航">
+      {% if g.user %}
+        <a href="{{ url_for('dashboard') }}">我的问卷</a>
+        <span class="muted">{{ g.user.username }}</span>
+        <form action="{{ url_for('logout') }}" method="post" class="inline">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="link-button" type="submit">退出</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('login') }}">登录</a>
+        <a href="{{ url_for('register') }}">注册</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer>当代数据管理系统 · 大作业一第一阶段</footer>
+</body>
+</html>

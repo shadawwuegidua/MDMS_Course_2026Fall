@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ '编辑问卷' if survey else '创建问卷' }} · 问卷系统{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='editor.js') }}" defer></script>{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">问卷草稿</p><h1>{{ '编辑问卷' if survey else '创建问卷' }}</h1><p class="muted">保存草稿后可以继续编辑。发布后题目与规则固定。</p></div><a href="{{ url_for('dashboard') }}">返回列表</a></div>
+<form id="editor-form">
+  <section class="panel">
+    <label>问卷标题<input id="survey-title" maxlength="200" required value="{{ survey.title if survey else '' }}" placeholder="例如：校园生活调查"></label>
+    <label>问卷说明<textarea id="survey-description" maxlength="5000" rows="3" placeholder="告诉填写者这份问卷的用途">{{ survey.description if survey else '' }}</textarea></label>
+    <div class="settings-row"><label class="check"><input id="is-anonymous" type="checkbox" {% if survey and survey.is_anonymous %}checked{% endif %}>对创建者匿名</label><label class="check"><input id="allow-multiple" type="checkbox" {% if survey and survey.allow_multiple %}checked{% endif %}>允许同一账号重复填写</label></div>
+    <label>截止时间（可选）<input id="survey-deadline" type="datetime-local"></label>
+  </section>
+  <div class="section-heading"><h2>题目与规则</h2><span class="hint">题目按照下面的顺序呈现</span></div>
+  <div id="questions"></div>
+  <div class="add-question"><label for="new-question-type">添加题型</label><select id="new-question-type"><option value="single">单选题</option><option value="multiple">多选题</option><option value="text">文本填空</option><option value="number">数字填空</option></select><button id="add-question" type="button" class="secondary">＋ 添加题目</button></div>
+  <div class="save-bar"><p id="editor-message" class="message" role="status" hidden></p><div class="actions"><button type="submit" id="save-draft">保存草稿</button><button type="button" id="publish-survey" class="secondary">保存并发布</button><span id="save-state" class="hint">修改后请保存</span></div></div>
+</form>
+<script id="survey-data" type="application/json">{{ survey|tojson }}</script>
+{% endblock %}

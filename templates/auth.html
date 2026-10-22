@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ '注册' if mode == 'register' else '登录' }} · 问卷系统{% endblock %}
+{% block content %}
+<section class="auth-panel">
+  <h1>{{ '创建账号' if mode == 'register' else '欢迎回来' }}</h1>
+  <p class="muted">{{ '注册后可以创建问卷，也可以填写他人分享的问卷。' if mode == 'register' else '登录后继续创建或填写问卷。' }}</p>
+  {% if error %}<p class="message error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="hidden" name="next" value="{{ request.values.get('next', '') }}">
+    <label>用户名<input name="username" autocomplete="username" minlength="3" maxlength="40" required value="{{ request.form.get('username', '') }}"></label>
+    <label>密码<input name="password" type="password" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" minlength="6" maxlength="128" required></label>
+    {% if mode == 'register' %}<p class="hint">用户名 3—40 个字符；密码至少 6 个字符。</p>{% endif %}
+    <button type="submit" class="wide">{{ '注册并登录' if mode == 'register' else '登录' }}</button>
+  </form>
+  <p class="hint">{% if mode == 'register' %}已有账号？<a href="{{ url_for('login', next=request.values.get('next', '')) }}">去登录</a>{% else %}还没有账号？<a href="{{ url_for('register', next=request.values.get('next', '')) }}">去注册</a>{% endif %}</p>
+</section>
+{% endblock %}

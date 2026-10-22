@@ -1,0 +1,94 @@
+{
+  "users": {
+    "bsonType": "object",
+    "required": ["username", "password_hash", "created_at"],
+    "properties": {
+      "_id": {"bsonType": "objectId"},
+      "username": {"bsonType": "string", "minLength": 3, "maxLength": 40},
+      "password_hash": {"bsonType": "string", "minLength": 1},
+      "created_at": {"bsonType": "date"}
+    }
+  },
+  "surveys": {
+    "bsonType": "object",
+    "required": ["owner_id", "title", "description", "status", "is_anonymous", "allow_multiple", "deadline", "questions", "created_at", "updated_at"],
+    "properties": {
+      "_id": {"bsonType": "objectId"},
+      "owner_id": {"bsonType": "objectId"},
+      "title": {"bsonType": "string", "minLength": 1, "maxLength": 200},
+      "description": {"bsonType": "string"},
+      "status": {"enum": ["draft", "published", "closed"]},
+      "is_anonymous": {"bsonType": "bool"},
+      "allow_multiple": {"bsonType": "bool"},
+      "deadline": {"bsonType": ["date", "null"]},
+      "created_at": {"bsonType": "date"},
+      "updated_at": {"bsonType": "date"},
+      "questions": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": ["id", "title", "type", "required", "options", "validation", "rules"],
+          "properties": {
+            "id": {"bsonType": "string", "minLength": 1},
+            "title": {"bsonType": "string", "minLength": 1},
+            "type": {"enum": ["single", "multiple", "text", "number"]},
+            "required": {"bsonType": "bool"},
+            "options": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "required": ["id", "text"],
+                "properties": {
+                  "id": {"bsonType": "string", "minLength": 1},
+                  "text": {"bsonType": "string", "minLength": 1}
+                }
+              }
+            },
+            "validation": {
+              "bsonType": "object",
+              "properties": {
+                "min_choices": {"bsonType": "int", "minimum": 0},
+                "max_choices": {"bsonType": "int", "minimum": 0},
+                "min_length": {"bsonType": "int", "minimum": 0},
+                "max_length": {"bsonType": "int", "minimum": 0},
+                "min_value": {"bsonType": ["int", "long", "double", "decimal"]},
+                "max_value": {"bsonType": ["int", "long", "double", "decimal"]},
+                "integer_only": {"bsonType": "bool"}
+              }
+            },
+            "rules": {
+              "bsonType": "array",
+              "items": {
+                "bsonType": "object",
+                "required": ["operator", "value", "target_id"],
+                "properties": {
+                  "operator": {"enum": ["eq", "contains", "gt", "gte", "lt", "lte"]},
+                  "value": {"bsonType": ["string", "int", "long", "double", "decimal"]},
+                  "target_id": {"bsonType": "string", "minLength": 1}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "responses": {
+    "bsonType": "object",
+    "required": ["survey_id", "respondent_id", "single_submission", "answers", "submitted_at"],
+    "properties": {
+      "_id": {"bsonType": "objectId"},
+      "survey_id": {"bsonType": "objectId"},
+      "respondent_id": {"bsonType": "objectId"},
+      "single_submission": {"bsonType": "bool"},
+      "submitted_at": {"bsonType": "date"},
+      "answers": {
+        "bsonType": "object",
+        "additionalProperties": {
+          "bsonType": ["string", "array", "int", "long", "double", "decimal", "null"],
+          "items": {"bsonType": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,66 @@
+纯业务逻辑测试
+命令: .venv\Scripts\python.exe -m unittest discover -s tests -p test_logic.py -v
+
+test_finite_decimal_number (test_logic.AnswerTests.test_finite_decimal_number) ... ok
+test_multiple_exact_count_duplicates_and_unknown (test_logic.AnswerTests.test_multiple_exact_count_duplicates_and_unknown) ... ok
+test_numeric_bounds_integer_and_normalization (test_logic.AnswerTests.test_numeric_bounds_integer_and_normalization) ... ok
+test_optional_blank_bypasses_minimum (test_logic.AnswerTests.test_optional_blank_bypasses_minimum) ... ok
+test_required_and_optional_empty (test_logic.AnswerTests.test_required_and_optional_empty) ... ok
+test_single_rejects_unknown_or_wrong_shape (test_logic.AnswerTests.test_single_rejects_unknown_or_wrong_shape) ... ok
+test_unicode_text_length_and_trim (test_logic.AnswerTests.test_unicode_text_length_and_trim) ... ok
+test_default_path_and_last_question (test_logic.BranchingTests.test_default_path_and_last_question) ... ok
+test_multiple_and_numeric_jump (test_logic.BranchingTests.test_multiple_and_numeric_jump) ... ok
+test_optional_null_and_unknown_answer_rejection (test_logic.BranchingTests.test_optional_null_and_unknown_answer_rejection) ... ok
+test_rule_order_and_numeric_boundaries (test_logic.BranchingTests.test_rule_order_and_numeric_boundaries) ... ok
+test_single_jump_and_skipped_required (test_logic.BranchingTests.test_single_jump_and_skipped_required) ... ok
+test_duplicate_question_and_option_ids (test_logic.QuestionDefinitionTests.test_duplicate_question_and_option_ids) ... ok
+test_empty_draft (test_logic.QuestionDefinitionTests.test_empty_draft) ... ok
+test_generated_ids_are_returned_and_preserved (test_logic.QuestionDefinitionTests.test_generated_ids_are_returned_and_preserved) ... ok
+test_invalid_types_and_inconsistent_ranges (test_logic.QuestionDefinitionTests.test_invalid_types_and_inconsistent_ranges) ... ok
+test_rejects_backward_unknown_and_wrong_type_rules (test_logic.QuestionDefinitionTests.test_rejects_backward_unknown_and_wrong_type_rules) ... ok
+test_rejects_malformed_definition_values (test_logic.QuestionDefinitionTests.test_rejects_malformed_definition_values) ... ok
+test_relevant_validation_and_string_numbers (test_logic.QuestionDefinitionTests.test_relevant_validation_and_string_numbers) ... ok
+test_required_zero_maximum_is_rejected_but_optional_can_be_blank (test_logic.QuestionDefinitionTests.test_required_zero_maximum_is_rejected_but_optional_can_be_blank) ... ok
+test_counts_values_mean_and_no_identity (test_logic.StatisticsTests.test_counts_values_mean_and_no_identity) ... ok
+test_empty_statistics (test_logic.StatisticsTests.test_empty_statistics) ... ok
+test_small_finite_values_do_not_underflow_before_averaging (test_logic.StatisticsTests.test_small_finite_values_do_not_underflow_before_averaging) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.002s
+
+OK
+
+真实 MongoDB 集成测试
+命令: .venv\Scripts\python.exe -m unittest discover -s tests -p test_app.py -v
+
+test_anonymous_results_hide_identity (test_app.SurveyIntegrationTests.test_anonymous_results_hide_identity) ... ok
+test_authentication_password_storage_and_login (test_app.SurveyIntegrationTests.test_authentication_password_storage_and_login) ... ok
+test_bad_rule_and_contradictory_limits_are_rejected (test_app.SurveyIntegrationTests.test_bad_rule_and_contradictory_limits_are_rejected) ... ok
+test_cannot_publish_empty_questionnaire (test_app.SurveyIntegrationTests.test_cannot_publish_empty_questionnaire) ... ok
+test_check_answer_validates_jumps_without_saving_a_response (test_app.SurveyIntegrationTests.test_check_answer_validates_jumps_without_saving_a_response) ... ok
+test_closed_questionnaire_preserves_results (test_app.SurveyIntegrationTests.test_closed_questionnaire_preserves_results) ... ok
+test_concurrent_draft_clear_cannot_publish_an_empty_survey (test_app.SurveyIntegrationTests.test_concurrent_draft_clear_cannot_publish_an_empty_survey) ... ok
+test_concurrent_restricted_submissions_save_exactly_one (test_app.SurveyIntegrationTests.test_concurrent_restricted_submissions_save_exactly_one) ... ok
+test_concurrent_unrestricted_submissions_do_not_overwrite (test_app.SurveyIntegrationTests.test_concurrent_unrestricted_submissions_do_not_overwrite) ... ok
+test_core_pages_render (test_app.SurveyIntegrationTests.test_core_pages_render) ... ok
+test_create_draft_and_own_list_roundtrip (test_app.SurveyIntegrationTests.test_create_draft_and_own_list_roundtrip) ... ok
+test_deadline_can_expire_and_be_cleared (test_app.SurveyIntegrationTests.test_deadline_can_expire_and_be_cleared) ... ok
+test_duplicate_username_is_rejected (test_app.SurveyIntegrationTests.test_duplicate_username_is_rejected) ... ok
+test_edit_draft_adds_all_question_types (test_app.SurveyIntegrationTests.test_edit_draft_adds_all_question_types) ... ok
+test_foreign_owner_cannot_read_modify_or_view_statistics (test_app.SurveyIntegrationTests.test_foreign_owner_cannot_read_modify_or_view_statistics) ... ok
+test_invalid_answers_are_not_saved (test_app.SurveyIntegrationTests.test_invalid_answers_are_not_saved) ... ok
+test_login_required_and_csrf (test_app.SurveyIntegrationTests.test_login_required_and_csrf) ... ok
+test_multiple_choice_jump (test_app.SurveyIntegrationTests.test_multiple_choice_jump) ... ok
+test_named_results_can_show_username (test_app.SurveyIntegrationTests.test_named_results_can_show_username) ... ok
+test_numeric_jump (test_app.SurveyIntegrationTests.test_numeric_jump) ... ok
+test_public_definition_requires_login_and_publication (test_app.SurveyIntegrationTests.test_public_definition_requires_login_and_publication) ... ok
+test_published_definition_is_immutable (test_app.SurveyIntegrationTests.test_published_definition_is_immutable) ... ok
+test_repeat_submission_switch (test_app.SurveyIntegrationTests.test_repeat_submission_switch) ... ok
+test_single_jump_skips_required_and_discards_stale_answer (test_app.SurveyIntegrationTests.test_single_jump_skips_required_and_discards_stale_answer) ... ok
+test_statistics_known_answers_and_single_question (test_app.SurveyIntegrationTests.test_statistics_known_answers_and_single_question) ... ok
+test_unknown_question_answer_and_malformed_payload_are_rejected (test_app.SurveyIntegrationTests.test_unknown_question_answer_and_malformed_payload_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 3.742s
+
+OK

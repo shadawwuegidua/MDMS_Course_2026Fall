@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ survey.title }} · 填写问卷{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='fill.js') }}" defer></script>{% endblock %}
+{% block content %}
+<section class="fill-container">
+  <p class="eyebrow">填写问卷</p><h1>{{ survey.title }}</h1>
+  {% if survey.description %}<p class="description">{{ survey.description }}</p>{% endif %}
+  <p class="hint">{% if survey.is_anonymous %}此问卷对创建者匿名；系统内部保留账号关联，用于控制重复填写。{% else %}此问卷会向创建者显示你的账号。{% endif %} {{ '允许重复填写。' if survey.allow_multiple else '每个账号限提交一次。' }}</p>
+  <p class="hint">{{ survey.deadline|localtime }}{% if survey.deadline %}（UTC+8）{% endif %} · 刷新页面不会保留未提交的内容。</p>
+  <section class="panel answer-panel"><p id="question-progress" class="eyebrow"></p><h2 id="question-title"></h2><p id="question-hint" class="hint"></p>
+    <form id="answer-form" novalidate><div id="answer-controls"></div><p id="answer-error" class="message error" role="alert" hidden></p><div class="actions answer-actions"><button type="button" id="previous-question" class="secondary">上一题</button><button type="submit" id="next-question">下一题</button></div></form>
+  </section>
+</section>
+<script id="survey-data" type="application/json">{{ survey|tojson }}</script>
+{% endblock %}
